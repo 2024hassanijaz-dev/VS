@@ -1,0 +1,254 @@
+﻿<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>School Task Completion Leaderboard</title>
+    <link rel="stylesheet" href="leaderboard.css" />
+    <script>
+      // Set this to your backend base URL if needed (e.g. "http://localhost:3000").
+      window.LEADERBOARD_API_BASE = "http://localhost:3000";
+    </script>
+  </head>
+  <body>
+    <div class="page">
+      <!-- Header: main platform branding -->
+      <header>
+        <div class="brand">
+          <img src="loclogo.png" alt="LOC platform logo" class="logo-large" />
+          <h1>School Task Completion Leaderboard</h1>
+        </div>
+      </header>
+
+      <!-- Podium: top 3 schools with medals/crown and totals -->
+      <section class="podium" aria-label="Top three schools">
+        <div class="podium-slot second" data-rank="2">
+          <article class="podium-card">
+            <div class="avatar-wrap">
+              <div class="badge medal silver" aria-label="Second place badge">
+                <img src="2ndpos.png" alt="" aria-hidden="true" />
+              </div>
+              <div class="school-avatar" data-avatar aria-label="School logo">
+                <span>?</span>
+              </div>
+            </div>
+            <p class="school" data-name>School 2</p>
+            <p class="tasks" data-tasks>
+              <span class="task-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9.2 16.4 4.8 12l1.7-1.7 2.7 2.7 6.8-6.8 1.7 1.7z" fill="currentColor" />
+                </svg>
+              </span>
+              <span class="task-count">0 Tasks</span>
+            </p>
+          </article>
+          <div class="podium-stand stand-silver" aria-hidden="true">
+            <span>2</span>
+          </div>
+        </div>
+
+        <div class="podium-slot first" data-rank="1">
+          <article class="podium-card">
+            <div class="avatar-wrap">
+              <div class="badge crown" aria-label="Crown">
+                <img src="crown.png" alt="" aria-hidden="true" />
+              </div>
+              <div class="school-avatar" data-avatar aria-label="School logo">
+                <span>?</span>
+              </div>
+            </div>
+            <p class="school" data-name>School 1</p>
+            <p class="tasks" data-tasks>
+              <span class="task-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9.2 16.4 4.8 12l1.7-1.7 2.7 2.7 6.8-6.8 1.7 1.7z" fill="currentColor" />
+                </svg>
+              </span>
+              <span class="task-count">0 Tasks</span>
+            </p>
+          </article>
+          <div class="podium-stand stand-gold" aria-hidden="true">
+            <span>1</span>
+          </div>
+        </div>
+
+        <div class="podium-slot third" data-rank="3">
+          <article class="podium-card">
+            <div class="avatar-wrap">
+              <div class="badge medal bronze" aria-label="Third place badge">
+                <img src="3rdpos.png" alt="" aria-hidden="true" />
+              </div>
+              <div class="school-avatar" data-avatar aria-label="School logo">
+                <span>?</span>
+              </div>
+            </div>
+            <p class="school" data-name>School 3</p>
+            <p class="tasks" data-tasks>
+              <span class="task-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                  <path d="M9.2 16.4 4.8 12l1.7-1.7 2.7 2.7 6.8-6.8 1.7 1.7z" fill="currentColor" />
+                </svg>
+              </span>
+              <span class="task-count">0 Tasks</span>
+            </p>
+          </article>
+          <div class="podium-stand stand-bronze" aria-hidden="true">
+            <span>3</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Table: ranks 4 to 10 with logos inside the name cell -->
+      <section class="card" aria-label="Leaderboard table from 4 to 10">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name of the School</th>
+              <th>Tasks</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body"></tbody>
+        </table>
+      </section>
+
+      <!-- Menu: shows all schools beyond the top 10 -->
+      <nav class="menu" aria-label="All schools list">
+        <details>
+          <summary>All Schools</summary>
+          <ul id="all-schools"></ul>
+        </details>
+      </nav>
+    </div>
+
+    <script>
+      const fallbackData = [
+        { name: "School 1", shortname: "school_1", tasksCompleted: 245, logo: "loclogo.png" },
+        { name: "School 2", shortname: "school_2", tasksCompleted: 198, logo: "loclogo.png" },
+        { name: "School 3", shortname: "school_3", tasksCompleted: 176, logo: "loclogo.png" },
+        { name: "School 4", shortname: "school_4", tasksCompleted: 104, logo: "loclogo.png" },
+        { name: "School 5", shortname: "school_5", tasksCompleted: 99, logo: "loclogo.png" },
+        { name: "School 6", shortname: "school_6", tasksCompleted: 93, logo: "loclogo.png" },
+        { name: "School 7", shortname: "school_7", tasksCompleted: 88, logo: "loclogo.png" },
+        { name: "School 8", shortname: "school_8", tasksCompleted: 84, logo: "loclogo.png" },
+        { name: "School 9", shortname: "school_9", tasksCompleted: 79, logo: "loclogo.png" },
+        { name: "School 10", shortname: "school_10", tasksCompleted: 73, logo: "loclogo.png" },
+        { name: "School 11", shortname: "school_11", tasksCompleted: 68, logo: "loclogo.png" }
+      ];
+
+      function getInitials(name) {
+        if (!name) return "?";
+        const parts = name.trim().split(/\s+/);
+        const first = parts[0]?.[0] || "";
+        const last = parts.length > 1 ? parts[parts.length - 1][0] : "";
+        return (first + last).toUpperCase() || "?";
+      }
+
+      function formatTasks(count) {
+        return `${count} Tasks`;
+      }
+
+      function setAvatar(el, school) {
+        const initials = getInitials(school.name);
+        const span = el.querySelector("span");
+        if (span) span.textContent = initials;
+        if (school.logo) {
+          el.style.backgroundImage = `url(${school.logo})`;
+        } else {
+          el.style.backgroundImage = "none";
+        }
+      }      function renderPodium(data) {
+        const mapping = {
+          1: data[0],
+          2: data[1],
+          3: data[2]
+        };
+
+        document.querySelectorAll(".podium-slot").forEach((slot) => {
+          const rank = Number(slot.dataset.rank);
+          const school = mapping[rank];
+          if (!school) return;
+
+          const nameEl = slot.querySelector("[data-name]");
+          const tasksEl = slot.querySelector("[data-tasks]");
+          const avatarEl = slot.querySelector("[data-avatar]");
+          const countEl = tasksEl ? tasksEl.querySelector(".task-count") : null;
+
+          if (nameEl) nameEl.textContent = school.name;
+          if (countEl) countEl.textContent = formatTasks(school.tasksCompleted);
+          if (avatarEl) setAvatar(avatarEl, school);
+        });
+      }
+
+      function renderTable(data) {
+        const body = document.getElementById("leaderboard-body");
+        if (!body) return;
+        body.innerHTML = "";
+
+        const rows = data.slice(3, 10);
+        rows.forEach((school, index) => {
+          const rank = index + 4;
+          const tr = document.createElement("tr");
+
+          const tdRank = document.createElement("td");
+          tdRank.className = "rank";
+          tdRank.textContent = String(rank);
+
+          const tdSchool = document.createElement("td");
+          tdSchool.className = "school-cell";
+          const img = document.createElement("img");
+          img.className = "school-logo";
+          img.src = school.logo || "loclogo.png";
+          img.alt = `${school.name} logo`;
+          const name = document.createElement("span");
+          name.textContent = school.name;
+          tdSchool.append(img, name);
+
+          const tdTasks = document.createElement("td");
+          tdTasks.textContent = String(school.tasksCompleted);
+
+          tr.append(tdRank, tdSchool, tdTasks);
+          body.appendChild(tr);
+        });
+      }
+
+      function renderMenu(data) {
+        const list = document.getElementById("all-schools");
+        if (!list) return;
+        list.innerHTML = "";
+
+        data.slice(10).forEach((school) => {
+          const li = document.createElement("li");
+          li.textContent = `${school.name} - ${formatTasks(school.tasksCompleted)}`;
+          list.appendChild(li);
+        });
+      }
+
+      async function loadLeaderboard() {
+        const base = window.LEADERBOARD_API_BASE || "";
+        const url = `${base}/api/leaderboard`;
+
+        try {
+          const res = await fetch(url);
+          if (!res.ok) throw new Error("API request failed");
+          const payload = await res.json();
+          const data = payload?.data || [];
+          if (!data.length) throw new Error("Empty data");
+          renderPodium(data);
+          renderTable(data);
+          renderMenu(data);
+        } catch (err) {
+          renderPodium(fallbackData);
+          renderTable(fallbackData);
+          renderMenu(fallbackData);
+        }
+      }
+
+      loadLeaderboard();
+    </script>
+  </body>
+</html>
+
+
+
+

@@ -1,0 +1,356 @@
+/* Theme tokens */
+:root {
+  --blue: #3844ff;
+  --cyan: #38c9ff;
+  --navy: #171b53;
+  --ink: #05071d;
+  --white: #ffffff;
+  --shadow: 0 12px 30px rgba(5, 7, 29, 0.35);
+  --card-border: rgba(255, 255, 255, 0.16);
+}
+
+/* Global reset */
+* {
+  box-sizing: border-box;
+}
+
+/* Page background and typography */
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, rgba(56, 201, 255, 0.25), transparent 55%),
+    linear-gradient(180deg, var(--ink), var(--navy));
+  color: var(--white);
+  min-height: 100vh;
+}
+
+/* Main page container */
+.page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 28px 16px 48px;
+}
+
+/* Header and branding */
+header {
+  margin-bottom: 16px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+
+.brand img {
+  width: 125px;
+  height: 100px;
+  object-fit: contain;
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.3px;
+  color: var(--white);
+}
+
+/* Menu section for all schools */
+.menu {
+  margin: 0 0 20px;
+}
+
+.menu details {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 10px 14px;
+  box-shadow: var(--shadow);
+}
+
+.menu summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--cyan);
+  list-style: none;
+}
+
+.menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.menu ul {
+  margin: 10px 0 0;
+  padding: 0 0 0 16px;
+}
+
+.menu li {
+  margin: 4px 0;
+}
+
+/* Podium layout */
+.podium {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 20px 0 28px;
+}
+
+.podium-slot {
+  display: grid;
+  align-items: end;
+  gap: 10px;
+}
+
+.podium-slot.first {
+  transform: translateY(-10px);
+}
+
+.podium-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--card-border);
+  border-radius: 18px;
+  padding: 18px 16px 12px;
+  position: relative;
+  text-align: center;
+  box-shadow: var(--shadow);
+}
+
+.podium-card .school {
+  margin: 10px 0 0;
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.podium-card .tasks {
+  margin: 6px 0 12px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Avatar + badge positioning */
+.avatar-wrap {
+  position: relative;
+  width: 96px;
+  height: 96px;
+  margin: 0 auto;
+}
+
+.school-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 50%;
+  border: 3px solid rgba(56, 201, 255, 0.5);
+  background: radial-gradient(circle at top, #ffffff, rgba(56, 201, 255, 0.2));
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 0.6px;
+}
+
+.badge {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  background: rgba(5, 7, 29, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 999px;
+  width: 36px;
+  height: 36px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25);
+}
+
+.badge.crown {
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 70px;
+  height: 48px;
+  border-radius: 16px;
+  padding: 4px 6px;
+}
+
+.badge.medal {
+  top: -8px;
+  left: -8px;
+}
+
+.badge svg {
+  width: 100%;
+  height: 100%;
+}
+
+.badge.crown img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.badge.medal img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.task-icon {
+  width: 18px;
+  height: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cyan);
+}
+
+.task-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Podium stands */
+.podium-stand {
+  position: relative;
+  border-radius: 12px 12px 16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: var(--white);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.25), 0 12px 18px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}
+
+.podium-stand::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 60%);
+}
+
+.podium-stand::after {
+  content: "";
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: -12px;
+  height: 14px;
+  border-radius: 0 0 12px 12px;
+  background: linear-gradient(180deg, rgba(5, 7, 29, 0.25), rgba(5, 7, 29, 0.6));
+  filter: blur(0.4px);
+}
+
+.podium-stand span {
+  position: relative;
+  z-index: 1;
+  font-size: 20px;
+}
+
+.stand-gold {
+  height: 120px;
+  background: linear-gradient(180deg, rgba(56, 201, 255, 0.45), rgba(56, 201, 255, 0.15));
+}
+
+.stand-silver {
+  height: 90px;
+  background: linear-gradient(180deg, rgba(56, 201, 255, 0.35), rgba(56, 201, 255, 0.1));
+}
+
+.stand-bronze {
+  height: 75px;
+  background: linear-gradient(180deg, rgba(56, 201, 255, 0.3), rgba(56, 201, 255, 0.08));
+}
+
+/* Shared school logo style */
+.school-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Table card */
+.card {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+
+/* Leaderboard table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: rgba(56, 201, 255, 0.15);
+}
+
+th,
+td {
+  text-align: left;
+  padding: 14px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 15px;
+}
+
+th {
+  font-weight: 600;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  font-size: 12px;
+}
+
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.rank {
+  font-weight: 700;
+  color: var(--cyan);
+  width: 80px;
+}
+
+/* School cell with logo on the left */
+.school-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 800px) {
+  .podium {
+    grid-template-columns: 1fr;
+  }
+
+  .podium-slot.first {
+    transform: none;
+  }
+}
+
+@media (max-width: 600px) {
+  h1 {
+    font-size: 22px;
+  }
+
+  th,
+  td {
+    padding: 12px 8px;
+    font-size: 14px;
+  }
+
+  .rank {
+    width: 56px;
+  }
+}
