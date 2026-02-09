@@ -100,7 +100,7 @@ h1 {
 .podium-slot {
   display: grid;
   align-items: end;
-  gap: 10px;
+  gap: 0;
 }
 
 .podium-slot.first {
@@ -108,19 +108,18 @@ h1 {
 }
 
 .podium-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--card-border);
-  border-radius: 18px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
   padding: 18px 16px 12px;
   position: relative;
+  z-index: 2;
   text-align: center;
-  box-shadow: var(--shadow);
+  box-shadow: none;
 }
 
 .podium-card .school {
-  margin: 10px 0 0;
-  font-size: 18px;
-  font-weight: 600;
+  display: none;
 }
 
 .podium-card .tasks {
@@ -225,55 +224,93 @@ h1 {
 
 /* Podium stands */
 .podium-stand {
+  --face: #3844ff;
+  --top: #38c9ff;
+  --side: #171b53;
   position: relative;
-  border-radius: 12px 12px 16px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
   display: grid;
   place-items: center;
-  font-weight: 700;
-  color: var(--white);
-  box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.25), 0 12px 18px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
+  gap: 6px;
+  border-radius: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(180deg, rgba(56, 201, 255, 0.2), rgba(5, 7, 29, 0.2)),
+    var(--face);
+  box-shadow: 0 18px 26px rgba(0, 0, 0, 0.35);
+  transform-style: preserve-3d;
+  overflow: visible;
+  margin-top: 0;
+  z-index: 1;
 }
 
 .podium-stand::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.45), transparent 60%);
+  left: 0;
+  right: -18px;
+  top: -18px;
+  height: 18px;
+  background: linear-gradient(135deg, rgba(56, 201, 255, 0.95), rgba(255, 255, 255, 0.8));
+  transform: translateY(0) skewX(-28deg);
+  transform-origin: bottom left;
+  border-top: 1px solid rgba(255, 255, 255, 0.7);
+  border-left: 1px solid rgba(255, 255, 255, 0.7);
+  border-right: 0;
+  box-shadow: 0 6px 10px rgba(96, 105, 208, 0.2);
 }
 
 .podium-stand::after {
   content: "";
   position: absolute;
-  left: 12px;
-  right: 12px;
-  bottom: -12px;
-  height: 14px;
-  border-radius: 0 0 12px 12px;
-  background: linear-gradient(180deg, rgba(5, 7, 29, 0.25), rgba(5, 7, 29, 0.6));
-  filter: blur(0.4px);
+  top: -18px;
+  right: -10px;
+  width: 10px;
+  height: calc(100% + 18px);
+  background: linear-gradient(180deg, rgba(23, 27, 83, 0.95), rgba(5, 7, 29, 0.98));
+  transform: skewY(-12deg);
+  transform-origin: top left;
+  border-right: 1px solid rgba(0, 0, 0, 0.18);
 }
 
 .podium-stand span {
   position: relative;
   z-index: 1;
+  text-align: center;
+  text-shadow: 0 6px 12px rgba(5, 7, 29, 0.45);
+}
+
+.stand-rank {
   font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.6px;
+  color: var(--white);
+}
+
+.stand-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: rgba(255, 255, 255, 0.85);
 }
 
 .stand-gold {
   height: 120px;
-  background: linear-gradient(180deg, rgba(56, 201, 255, 0.45), rgba(56, 201, 255, 0.15));
+  --face: #3844ff;
+  --top: #38c9ff;
+  --side: #171b53;
 }
 
 .stand-silver {
   height: 90px;
-  background: linear-gradient(180deg, rgba(56, 201, 255, 0.35), rgba(56, 201, 255, 0.1));
+  --face: #2f39d6;
+  --top: #38c9ff;
+  --side: #171b53;
 }
 
 .stand-bronze {
   height: 75px;
-  background: linear-gradient(180deg, rgba(56, 201, 255, 0.3), rgba(56, 201, 255, 0.08));
+  --face: #2730b3;
+  --top: #38c9ff;
+  --side: #171b53;
 }
 
 /* Shared school logo style */
@@ -364,4 +401,3 @@ tbody tr:last-child td {
     width: 56px;
   }
 }
-
