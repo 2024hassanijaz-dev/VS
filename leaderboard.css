@@ -1,12 +1,19 @@
-﻿/* Theme tokens */
+﻿@import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@400;600;700&display=swap');
+
+/* Theme tokens */
 :root {
-  --blue: #3844ff;
-  --cyan: #38c9ff;
-  --navy: #171b53;
-  --ink: #05071d;
+  --blue: #2f39d6;
+  --cyan: #43d1ff;
+  --navy: #0b1029;
+  --ink: #05070f;
   --white: #ffffff;
-  --shadow: 0 12px 30px rgba(5, 7, 29, 0.35);
-  --card-border: rgba(255, 255, 255, 0.16);
+  --shadow: 0 18px 40px rgba(2, 5, 16, 0.6);
+  --card-border: rgba(255, 255, 255, 0.14);
+  --grid: rgba(67, 209, 255, 0.12);
+  --neon: rgba(67, 209, 255, 0.45);
+  --podium-front: rgba(56, 201, 255, 0.12);
+  --podium-core: rgba(5, 7, 29, 0.8);
+  --podium-edge: rgba(56, 201, 255, 0.35);
 }
 
 /* Global reset */
@@ -17,18 +24,36 @@
 /* Page background and typography */
 body {
   margin: 0;
-  font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, rgba(56, 201, 255, 0.25), transparent 55%),
+  font-family: "Oxanium", "Rajdhani", "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 50% -10%, rgba(67, 209, 255, 0.2), transparent 45%),
     linear-gradient(180deg, var(--ink), var(--navy));
   color: var(--white);
   min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(transparent 94%, rgba(67, 209, 255, 0.08) 96%),
+    linear-gradient(90deg, transparent 94%, rgba(67, 209, 255, 0.08) 96%);
+  background-size: 40px 40px;
+  opacity: 0.6;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
 
 /* Main page container */
 .page {
-  max-width: 1000px;
+  max-width: 1050px;
   margin: 0 auto;
   padding: 28px 16px 48px;
+  position: relative;
+  z-index: 1;
 }
 
 /* Header and branding */
@@ -42,7 +67,6 @@ header {
   gap: 14px;
 }
 
-
 .brand img {
   width: 125px;
   height: 100px;
@@ -52,7 +76,7 @@ header {
 h1 {
   margin: 0;
   font-size: 28px;
-  letter-spacing: 0.3px;
+  letter-spacing: 0.6px;
   color: var(--white);
 }
 
@@ -62,8 +86,8 @@ h1 {
 }
 
 .menu details {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(6, 10, 24, 0.72);
+  border: 1px solid rgba(67, 209, 255, 0.2);
   border-radius: 12px;
   padding: 10px 14px;
   box-shadow: var(--shadow);
@@ -93,58 +117,133 @@ h1 {
 .podium {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 18px;
+  gap: 0;
   margin: 20px 0 28px;
+  align-items: end;
+  perspective: 900px;
 }
 
 .podium-slot {
   display: grid;
   align-items: end;
   gap: 0;
+  position: relative;
 }
 
 .podium-slot.first {
-  transform: translateY(-10px);
+  transform: none;
 }
 
-.podium-card {
-  background: transparent;
-  border: none;
-  border-radius: 0;
-  padding: 18px 16px 12px;
+/* Single 3D podium block */
+.podium-block {
+  --top-height: 44px;
+  --side-width: 34px;
   position: relative;
   z-index: 2;
   text-align: center;
-  box-shadow: none;
+  padding: 18px 16px 16px;
+  width: 100%;
+  margin: 0;
+  background: linear-gradient(180deg, rgba(8, 12, 24, 0.98), rgba(6, 10, 22, 0.98));
+  border: 1px solid rgba(56, 201, 255, 0.12);
+  border-radius: 2px;
+  box-shadow: 0 18px 28px rgba(3, 6, 18, 0.65);
+  clip-path: polygon(10% 0, 90% 0, 100% 100%, 0 100%);
+  backdrop-filter: blur(6px);
 }
 
-.podium-card .school {
-  display: none;
+/* top face */
+.podium-block::before {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  top: calc(var(--top-height) * -1);
+  height: var(--top-height);
+  background: linear-gradient(135deg, rgba(56, 201, 255, 0.32), rgba(255, 255, 255, 0.08));
+  transform: skewX(-28deg);
+  transform-origin: bottom left;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 10px 18px rgba(56, 201, 255, 0.1);
 }
 
-.podium-card .tasks {
-  margin: 6px 0 12px;
-  font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+/* right face */
+.podium-block::after {
+  content: "";
+  position: absolute;
+  top: calc(var(--top-height) * -1);
+  right: calc(var(--side-width) * -1);
+  width: var(--side-width);
+  height: calc(100% + var(--top-height));
+  background: linear-gradient(180deg, rgba(12, 16, 40, 0.95), rgba(5, 7, 24, 0.98));
+  border-right: 1px solid rgba(0, 0, 0, 0.22);
+  clip-path: polygon(0 0, 100% 28%, 100% 100%, 0 72%);
+}
+
+.podium-slot.first .podium-block {
+  min-height: 200px;
+}
+
+.podium-slot.second .podium-block,
+.podium-slot.third .podium-block {
+  min-height: 175px;
+}
+
+.podium-block .school {
+  display: block;
+  margin: 8px 0 6px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.podium-slot[data-rank="1"] .podium-block .school::before {
+  content: "[1] ";
+  color: var(--cyan);
+}
+
+.podium-slot[data-rank="2"] .podium-block .school::before {
+  content: "[2] ";
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.podium-slot[data-rank="3"] .podium-block .school::before {
+  content: "[3] ";
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.podium-block .tasks {
+  margin: 6px 0 10px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.75);
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
 }
 
 /* Avatar + badge positioning */
 .avatar-wrap {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 108px;
+  height: 108px;
   margin: 0 auto;
+  padding: 8px;
+  border-radius: 16px;
+  background: rgba(2, 6, 18, 0.8);
+  border: 1px solid rgba(67, 209, 255, 0.2);
+  box-shadow: inset 0 0 12px rgba(0, 0, 0, 0.35);
 }
 
 .school-avatar {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  border: 3px solid rgba(56, 201, 255, 0.5);
-  background: radial-gradient(circle at top, #ffffff, rgba(56, 201, 255, 0.2));
+  width: 92px;
+  height: 92px;
+  border-radius: 12px;
+  border: 2px solid rgba(67, 209, 255, 0.35);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(67, 209, 255, 0.08));
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -153,12 +252,13 @@ h1 {
   font-weight: 700;
   color: var(--white);
   letter-spacing: 0.6px;
+  image-rendering: pixelated;
 }
 
 .school-avatar span {
-  background: rgba(5, 7, 29, 0.65);
+  background: rgba(5, 7, 29, 0.7);
   padding: 4px 8px;
-  border-radius: 999px;
+  border-radius: 8px;
   font-size: 14px;
 }
 
@@ -175,12 +275,12 @@ h1 {
 }
 
 .badge.crown {
-  top: -30px;
+  top: -32px;
   left: 50%;
   transform: translateX(-50%);
-  width: 70px;
+  width: 72px;
   height: 48px;
-  border-radius: 16px;
+  border-radius: 14px;
   padding: 4px 6px;
 }
 
@@ -189,18 +289,7 @@ h1 {
   left: -8px;
 }
 
-.badge svg {
-  width: 100%;
-  height: 100%;
-}
-
-.badge.crown img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-}
-
+.badge.crown img,
 .badge.medal img {
   width: 100%;
   height: 100%;
@@ -224,54 +313,12 @@ h1 {
 
 /* Podium stands */
 .podium-stand {
-  --face: #3844ff;
-  --top: #38c9ff;
-  --side: #171b53;
-  --top-height: 18px;
-  --side-width: 12px;
-  position: relative;
-  display: grid;
-  place-items: center;
-  gap: 6px;
-  border-radius: 0;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: linear-gradient(180deg, rgba(56, 201, 255, 0.2), rgba(5, 7, 29, 0.2)),
-    var(--face);
-  box-shadow: 0 18px 26px rgba(0, 0, 0, 0.35);
-  transform-style: preserve-3d;
-  overflow: visible;
-  margin-top: 0;
-  z-index: 1;
+  display: none;
 }
 
-.podium-stand::before {
-  content: "";
-  position: absolute;
-  left: -2px;
-  right: calc(var(--side-width) * -1);
-  top: calc(var(--top-height) * -1);
-  height: var(--top-height);
-  background: linear-gradient(135deg, rgba(56, 201, 255, 0.95), rgba(255, 255, 255, 0.8));
-  transform: translateY(0) skewX(-26deg);
-  transform-origin: bottom left;
-  border-top: 1px solid rgba(255, 255, 255, 0.7);
-  border-left: 1px solid rgba(255, 255, 255, 0.7);
-  border-right: 1px solid rgba(255, 255, 255, 0.35);
-  box-shadow: 0 6px 10px rgba(96, 105, 208, 0.2);
-}
-
+.podium-stand::before,
 .podium-stand::after {
-  content: "";
-  position: absolute;
-  top: calc(var(--top-height) * -1);
-  right: calc(var(--side-width) * -1);
-  width: var(--side-width);
-  height: calc(100% + var(--top-height));
-  background: linear-gradient(180deg, rgba(23, 27, 83, 0.95), rgba(5, 7, 29, 0.98));
-  transform: none;
-  transform-origin: top left;
-  border-right: 1px solid rgba(0, 0, 0, 0.18);
-  clip-path: polygon(0 0, 100% 10%, 100% 100%, 0 90%);
+  content: none;
 }
 
 .podium-stand span {
@@ -279,42 +326,39 @@ h1 {
   z-index: 1;
   text-align: center;
   text-shadow: 0 6px 12px rgba(5, 7, 29, 0.45);
-}  
-
+}
 
 .stand-rank {
   font-size: 20px;
-  font-weight: 800;
-  letter-spacing: 0.6px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
   color: var(--white);
 }
 
 .stand-name {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.3px;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .stand-gold {
-  height: 120px;
-  --face: #3844ff;
-  --top: #38c9ff;
-  --side: #171b53;
+  height: 130px;
+  background: linear-gradient(180deg, rgba(67, 209, 255, 0.15), rgba(5, 7, 29, 0.25)),
+    #0f1b47;
+  box-shadow: 0 0 20px rgba(67, 209, 255, 0.35), 0 20px 30px rgba(0, 0, 0, 0.45);
 }
 
 .stand-silver {
-  height: 90px;
-  --face: #2f39d6;
-  --top: #38c9ff;
-  --side: #171b53;
+  height: 95px;
+  background: linear-gradient(180deg, rgba(67, 209, 255, 0.1), rgba(5, 7, 29, 0.25)),
+    #101640;
 }
 
 .stand-bronze {
-  height: 75px;
-  --face: #2730b3;
-  --top: #38c9ff;
-  --side: #171b53;
+  height: 78px;
+  background: linear-gradient(180deg, rgba(67, 209, 255, 0.08), rgba(5, 7, 29, 0.25)),
+    #0e1438;
 }
 
 /* Shared school logo style */
@@ -322,14 +366,14 @@ h1 {
   width: 40px;
   height: 40px;
   object-fit: cover;
-  border-radius: 8px;
+  border-radius: 10px;
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 /* Table card */
 .card {
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(6, 10, 24, 0.72);
+  border: 1px solid rgba(67, 209, 255, 0.18);
   border-radius: 16px;
   padding: 16px;
   overflow: hidden;
@@ -343,7 +387,7 @@ table {
 }
 
 thead {
-  background: rgba(56, 201, 255, 0.15);
+  background: rgba(67, 209, 255, 0.15);
 }
 
 th,
