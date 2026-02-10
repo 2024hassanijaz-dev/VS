@@ -222,6 +222,7 @@ h1 {
   width: 108px;
   height: 108px;
   margin: 0 auto;
+  transform: translateY(-18px);
   padding: 8px;
   border-radius: 16px;
   background: rgba(2, 6, 18, 0.8);
