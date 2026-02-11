@@ -115,9 +115,10 @@ h1 {
 
 /* Podium layout */
 .podium {
-  --podium-overlap: 36px;
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  --podium-width: 320px;
+  --podium-overlap: 90px;
+  display: flex;
+  justify-content: center;
   align-items: end;
   gap: 0;
   margin: 20px 0 28px;
@@ -130,24 +131,28 @@ h1 {
   gap: 0;
   position: relative;
   overflow: visible;
+  width: var(--podium-width);
+  min-width: var(--podium-width);
+  max-width: var(--podium-width);
+  flex: 0 0 var(--podium-width);
 }
 
 .podium-slot.first {
   transform: translateY(-16px);
   z-index: 3;
+  margin-right: calc(var(--podium-overlap) * -1);
 }
 
 .podium-slot.second {
   z-index: 2;
   transform: none;
-  margin-left: calc(var(--podium-overlap) * -1);
   margin-right: calc(var(--podium-overlap) * -1);
 }
 
 .podium-slot.third {
   z-index: 1;
   transform: none;
-  margin-left: calc(var(--podium-overlap) * -1);
+  margin-left: 0;
 }
 
 /* Single 3D podium block */
@@ -155,7 +160,7 @@ h1 {
   position: relative;
   z-index: 2;
   text-align: center;
-  padding: 60px 16px 22px;
+  padding: 60px 0 22px;
   width: 100%;
   margin: 0;
   background: transparent;
@@ -171,6 +176,13 @@ h1 {
   height: 100%;
   display: block;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.5));
+  overflow: visible;
+}
+
+/* Make 1st podium front wider without scaling content */
+.podium-slot.first .podium-svg {
+  width: 120%;
+  left: -10%;
 }
 
 .podium-slot.first .podium-block {
